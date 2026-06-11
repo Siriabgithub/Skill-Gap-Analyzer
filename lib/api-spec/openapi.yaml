@@ -3,13 +3,22 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: SkillGap AI API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: resumes
+    description: Resume management
+  - name: analyses
+    description: Skill gap analyses
+  - name: market
+    description: Market trend data
+  - name: dashboard
+    description: Dashboard aggregates
+
 paths:
   /healthz:
     get:
@@ -24,6 +33,239 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /resumes:
+    get:
+      operationId: listResumes
+      tags: [resumes]
+      summary: List all uploaded resumes
+      responses:
+        "200":
+          description: List of resumes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Resume"
+
+  /resumes/upload:
+    post:
+      operationId: uploadResume
+      tags: [resumes]
+      summary: Upload a resume file (PDF or DOCX)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/ResumeUpload"
+      responses:
+        "201":
+          description: Resume uploaded and parsed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+        "400":
+          description: Invalid file
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /resumes/{id}:
+    get:
+      operationId: getResume
+      tags: [resumes]
+      summary: Get a resume by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Resume details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteResume
+      tags: [resumes]
+      summary: Delete a resume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /analyses:
+    get:
+      operationId: listAnalyses
+      tags: [analyses]
+      summary: List all analyses
+      responses:
+        "200":
+          description: List of analyses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Analysis"
+    post:
+      operationId: createAnalysis
+      tags: [analyses]
+      summary: Create a new skill gap analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalysisRequest"
+      responses:
+        "201":
+          description: Analysis created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Analysis"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /analyses/{id}:
+    get:
+      operationId: getAnalysis
+      tags: [analyses]
+      summary: Get a full analysis by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Full analysis result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisDetail"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteAnalysis
+      tags: [analyses]
+      summary: Delete an analysis
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /analyses/{id}/roadmap:
+    get:
+      operationId: getAnalysisRoadmap
+      tags: [analyses]
+      summary: Get the learning roadmap for an analysis
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Learning roadmap
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LearningRoadmap"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /analyses/{id}/sources:
+    get:
+      operationId: getAnalysisSources
+      tags: [analyses]
+      summary: Get data sources used in an analysis
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Data sources list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DataSource"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /market-trends:
+    get:
+      operationId: getMarketTrends
+      tags: [market]
+      summary: Get market trend data for skills
+      responses:
+        "200":
+          description: Market trends
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketTrendsResponse"
+
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get aggregated dashboard statistics
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +276,312 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    ResumeUpload:
+      type: object
+      required: [file]
+      properties:
+        file:
+          type: string
+          format: binary
+
+    Resume:
+      type: object
+      required: [id, filename, originalName, status, createdAt]
+      properties:
+        id:
+          type: integer
+        filename:
+          type: string
+        originalName:
+          type: string
+        status:
+          type: string
+          enum: [processing, ready, error]
+        createdAt:
+          type: string
+          format: date-time
+        extractedText:
+          type: ["string", "null"]
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExtractedSkill"
+        education:
+          type: array
+          items:
+            type: string
+        experience:
+          type: array
+          items:
+            type: string
+        certifications:
+          type: array
+          items:
+            type: string
+        yearsOfExperience:
+          type: ["integer", "null"]
+
+    ExtractedSkill:
+      type: object
+      required: [name, confidence, category]
+      properties:
+        name:
+          type: string
+        confidence:
+          type: number
+        category:
+          type: string
+        source:
+          type: string
+
+    AnalysisRequest:
+      type: object
+      required: [resumeId, jobDescription]
+      properties:
+        resumeId:
+          type: integer
+        jobDescription:
+          type: string
+        jobTitle:
+          type: string
+
+    Analysis:
+      type: object
+      required: [id, resumeId, status, createdAt]
+      properties:
+        id:
+          type: integer
+        resumeId:
+          type: integer
+        status:
+          type: string
+          enum: [pending, completed, error]
+        createdAt:
+          type: string
+          format: date-time
+        jobTitle:
+          type: ["string", "null"]
+        matchScore:
+          type: ["number", "null"]
+        atsScore:
+          type: ["number", "null"]
+        missingSkillsCount:
+          type: ["integer", "null"]
+
+    AnalysisDetail:
+      type: object
+      required: [id, resumeId, status, createdAt, matchScore, atsScore]
+      properties:
+        id:
+          type: integer
+        resumeId:
+          type: integer
+        status:
+          type: string
+          enum: [pending, completed, error]
+        createdAt:
+          type: string
+          format: date-time
+        jobTitle:
+          type: ["string", "null"]
+        jobDescription:
+          type: string
+        matchScore:
+          type: number
+        atsScore:
+          type: number
+        missingSkills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillGapItem"
+        strongSkills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillGapItem"
+        improvementAreas:
+          type: array
+          items:
+            type: string
+        atsRecommendations:
+          type: array
+          items:
+            type: string
+        resume:
+          $ref: "#/components/schemas/Resume"
+
+    SkillGapItem:
+      type: object
+      required: [name, category, priority]
+      properties:
+        name:
+          type: string
+        category:
+          type: string
+        priority:
+          type: string
+          enum: [high, medium, low]
+        confidence:
+          type: number
+        demandScore:
+          type: ["number", "null"]
+
+    LearningRoadmap:
+      type: object
+      required: [analysisId, thirtyDayPlan, sixtyDayPlan, ninetyDayPlan]
+      properties:
+        analysisId:
+          type: integer
+        thirtyDayPlan:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoadmapPhase"
+        sixtyDayPlan:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoadmapPhase"
+        ninetyDayPlan:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoadmapPhase"
+
+    RoadmapPhase:
+      type: object
+      required: [skill, description, resources, priority, estimatedHours]
+      properties:
+        skill:
+          type: string
+        description:
+          type: string
+        resources:
+          type: array
+          items:
+            $ref: "#/components/schemas/LearningResource"
+        priority:
+          type: string
+          enum: [high, medium, low]
+        estimatedHours:
+          type: integer
+        category:
+          type: string
+
+    LearningResource:
+      type: object
+      required: [title, type, url]
+      properties:
+        title:
+          type: string
+        type:
+          type: string
+          enum: [course, article, documentation, video, practice]
+        url:
+          type: string
+        provider:
+          type: string
+        isFree:
+          type: boolean
+
+    DataSource:
+      type: object
+      required: [name, description, lastUpdated, confidenceScore]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        lastUpdated:
+          type: string
+        confidenceScore:
+          type: number
+        category:
+          type: string
+
+    MarketTrendsResponse:
+      type: object
+      required: [trendingSkills, emergingSkills, topCategories, lastUpdated]
+      properties:
+        trendingSkills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillTrend"
+        emergingSkills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillTrend"
+        topCategories:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryDemand"
+        lastUpdated:
+          type: string
+
+    SkillTrend:
+      type: object
+      required: [name, demandScore, trendDirection, category, jobCount]
+      properties:
+        name:
+          type: string
+        demandScore:
+          type: number
+        trendDirection:
+          type: string
+          enum: [rising, stable, declining]
+        category:
+          type: string
+        jobCount:
+          type: integer
+        growthRate:
+          type: number
+
+    CategoryDemand:
+      type: object
+      required: [category, demandScore, skillCount]
+      properties:
+        category:
+          type: string
+        demandScore:
+          type: number
+        skillCount:
+          type: integer
+        topSkills:
+          type: array
+          items:
+            type: string
+
+    DashboardStats:
+      type: object
+      required: [totalResumes, totalAnalyses, avgAtsScore, avgMatchScore, topMissingSkills, recentAnalyses]
+      properties:
+        totalResumes:
+          type: integer
+        totalAnalyses:
+          type: integer
+        avgAtsScore:
+          type: number
+        avgMatchScore:
+          type: number
+        topMissingSkills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillFrequency"
+        recentAnalyses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Analysis"
+
+    SkillFrequency:
+      type: object
+      required: [skill, count, category]
+      properties:
+        skill:
+          type: string
+        count:
+          type: integer
+        category:
+          type: string

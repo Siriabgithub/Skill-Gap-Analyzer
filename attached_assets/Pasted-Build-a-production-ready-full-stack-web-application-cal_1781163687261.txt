@@ -1,0 +1,382 @@
+Build a production-ready full-stack web application called **SkillGap AI – Intelligent Career Readiness Platform**.
+
+GOAL:
+Create a professional SaaS-style platform that analyzes resumes against job descriptions, identifies skill gaps using NLP and machine learning, provides ATS scoring, generates personalized learning roadmaps, validates recommendations using job market data, and presents everything through an interactive dashboard with complete source transparency.
+
+IMPORTANT REQUIREMENTS:
+
+1. The application must run without modification on:
+
+   * Replit
+   * Local Windows machine
+   * Local Linux machine
+   * Local Mac machine
+
+2. The application must be GitHub-ready with:
+
+   * Clean folder structure
+   * README.md
+   * requirements.txt
+   * Environment variable support
+   * Proper comments and documentation
+
+3. The application must use:
+
+   * Python
+   * Flask
+   * SQLite
+   * Pandas
+   * NumPy
+   * Scikit-Learn
+   * spaCy
+   * Plotly
+   * Bootstrap 5
+   * ReportLab
+
+4. Use modular architecture.
+
+PROJECT STRUCTURE:
+
+SkillGapAI/
+│
+├── app.py
+├── requirements.txt
+├── README.md
+├── .env.example
+│
+├── database/
+├── uploads/
+├── reports/
+├── models/
+├── data/
+├── static/
+├── templates/
+├── src/
+└── tests/
+
+DESIGN REQUIREMENTS:
+
+Create a premium SaaS-style UI.
+
+The design should feel modern and professional similar to:
+
+* Stripe
+* Notion
+* Linear
+* Vercel
+* Framer
+
+Use:
+
+* Smooth page transitions
+* Glassmorphism effects where appropriate
+* Professional gradients
+* Hover animations
+* Loading animations
+* Interactive cards
+* Responsive design
+* Mobile-friendly layout
+
+Avoid:
+
+* Student-project appearance
+* Generic admin templates
+* Cluttered dashboards
+
+Create a clean dark/light mode toggle.
+
+FEATURES:
+
+========================
+
+1. LANDING PAGE
+   ========================
+
+Create a modern landing page with:
+
+Hero section:
+
+* Product name
+* Tagline
+* Call to Action
+
+Sections:
+
+* Features
+* How It Works
+* Benefits
+* Screenshots placeholder
+* Testimonials placeholder
+* Footer
+
+Add subtle animations.
+
+========================
+2. RESUME UPLOAD
+================
+
+Allow upload of:
+
+* PDF
+* DOCX
+
+Extract:
+
+* Skills
+* Education
+* Certifications
+* Experience
+
+Use:
+
+* pdfplumber
+* python-docx
+* spaCy
+
+Display extracted information visually.
+
+========================
+3. JOB DESCRIPTION INPUT
+========================
+
+Allow:
+
+* Paste Job Description
+* Upload Job Description file
+
+Extract:
+
+* Required Skills
+* Preferred Skills
+* Experience Requirements
+
+========================
+4. NLP SKILL EXTRACTION
+=======================
+
+Do not rely only on keyword matching.
+
+Use NLP and semantic matching.
+
+Detect skills even when they are implied.
+
+Example:
+"Built predictive models using Scikit-Learn"
+
+Should identify:
+
+* Python
+* Machine Learning
+* Data Science
+
+Create confidence scores.
+
+========================
+5. SKILL GAP ANALYSIS
+=====================
+
+Generate:
+
+* Match Percentage
+* Missing Skills
+* Strong Skills
+* Improvement Areas
+
+Display:
+
+* Progress bars
+* Radar charts
+* Heatmaps
+* Skill matrix
+
+========================
+6. ATS SCORE ENGINE
+===================
+
+Generate ATS Score out of 100.
+
+Analyze:
+
+* Skill match
+* Keywords
+* Resume quality
+* Section completeness
+
+Provide actionable recommendations.
+
+========================
+7. LEARNING ROADMAP
+===================
+
+Generate:
+
+* 30 Day Plan
+* 60 Day Plan
+* 90 Day Plan
+
+Personalized based on:
+
+* Missing skills
+* Career target
+* Experience level
+
+Display roadmap in timeline format.
+
+========================
+8. MARKET TREND ANALYSIS
+========================
+
+Use sample datasets included in project.
+
+Analyze:
+
+* Most demanded skills
+* Emerging skills
+* Trending technologies
+
+Display:
+
+* Trend charts
+* Demand charts
+* Job market analytics
+
+========================
+9. SOURCE TRANSPARENCY
+======================
+
+Every recommendation must include source information.
+
+Create dedicated section:
+
+Data Sources Used
+
+Examples:
+
+* User Resume
+* User Job Description
+* O*NET
+* ESCO
+* Kaggle Datasets
+* Internal Skill Database
+
+Display:
+
+* Source name
+* Description
+* Last updated
+* Confidence score
+
+This is mandatory.
+
+========================
+10. PDF REPORT GENERATION
+=========================
+
+Generate downloadable PDF containing:
+
+* Candidate Summary
+* ATS Score
+* Match Score
+* Missing Skills
+* Learning Roadmap
+* Market Insights
+* Sources Referenced
+
+========================
+11. DASHBOARD
+=============
+
+Create professional dashboard.
+
+Cards:
+
+* ATS Score
+* Match Score
+* Missing Skills Count
+* Recommended Skills Count
+
+Charts:
+
+* Radar Chart
+* Plotly Heatmap
+* Skill Distribution
+* Trend Analysis
+
+========================
+12. USER EXPERIENCE
+===================
+
+Add:
+
+* Loading states
+* Skeleton loaders
+* Tooltips
+* Search
+* Filters
+* Export buttons
+* Error handling
+* Success notifications
+
+========================
+13. DATABASE
+============
+
+Use SQLite.
+
+Store:
+
+* Uploaded resumes
+* Analysis results
+* Skill history
+* Reports
+
+========================
+14. FUTURE READY
+================
+
+Structure code so future features can be added:
+
+* Login system
+* Subscription plans
+* AI career coach
+* Payment gateway
+* Admin panel
+* Recruiter portal
+
+========================
+15. DEPLOYMENT
+==============
+
+Application must include:
+
+requirements.txt
+
+README.md
+
+Environment configuration
+
+Local setup instructions
+
+Commands:
+
+pip install -r requirements.txt
+
+python app.py
+
+Application should run immediately.
+
+========================
+16. CODE QUALITY
+================
+
+Requirements:
+
+* Clean architecture
+* Modular code
+* Reusable functions
+* Type hints where possible
+* Comments
+* Professional naming conventions
+* No placeholder broken features
+
+Generate all files needed for a working MVP and ensure the application launches successfully on first run.

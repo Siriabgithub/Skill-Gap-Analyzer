@@ -1,10 +1,11 @@
-# [Project name]
+# SkillGap AI – Intelligent Career Readiness Platform
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A full-stack SaaS-style platform that analyzes resumes against job descriptions, detects skill gaps using NLP pattern matching, generates ATS scores, creates personalized 30/60/90-day learning roadmaps, and provides complete source transparency — all through an interactive dark-mode dashboard.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
+- `pnpm --filter @workspace/skillgap-ai run dev` — run the frontend (port 20490)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
@@ -14,23 +15,44 @@ _Replace the heading above with the project's name, and this line with one sente
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
+- Frontend: React + Vite, Tailwind CSS, shadcn/ui, Recharts, Framer Motion, next-themes
 - API: Express 5
 - DB: PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
+- File parsing: `pdf-parse` (PDF), `mammoth` (DOCX), `multer` (upload)
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — API contract (source of truth)
+- `lib/db/src/schema/resumes.ts` — resumes table + types
+- `lib/db/src/schema/analyses.ts` — analyses table + types
+- `artifacts/api-server/src/lib/skills-database.ts` — 40+ skills with NLP patterns and market data
+- `artifacts/api-server/src/lib/analysis-engine.ts` — skill gap analysis + ATS scoring logic
+- `artifacts/api-server/src/lib/roadmap-generator.ts` — 30/60/90 day learning roadmap generator
+- `artifacts/api-server/src/lib/file-parser.ts` — PDF/DOCX parsing
+- `artifacts/api-server/uploads/` — uploaded resume files
+- `artifacts/skillgap-ai/src/` — React frontend
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Contract-first: OpenAPI spec gates codegen which gates frontend hooks — never hand-write API types
+- NLP skill extraction uses keyword + alias pattern matching against a curated 40-skill database with market demand scores
+- ATS scoring is computed from keyword overlap, section completeness, quantified achievements, and skill match ratio
+- Resume parsing happens async after 201 response — client polls `GET /resumes/:id` for `status: "ready"`
+- All roadmap and source data is generated server-side per analysis, not stored separately
+- `lib/api-zod/tsconfig.json` includes `"dom"` lib to support `File`/`Blob` types from Orval's multipart generation
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- **Landing page** — hero, features, how-it-works, animated sections
+- **Resume upload** — drag-and-drop PDF/DOCX, job description paste, automatic skill extraction
+- **Dashboard** — ATS score, match score, missing skills chart, recent analyses
+- **Analysis detail** — radar chart, skill gap matrix, ATS recommendations
+- **Learning roadmap** — 30/60/90 day timeline with resources and priorities
+- **Market trends** — trending/emerging skills, category demand charts
+- **Source transparency** — confidence scores and provenance for every recommendation
 
 ## User preferences
 
@@ -38,7 +60,11 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Always run `pnpm --filter @workspace/api-spec run codegen` after changing `openapi.yaml`
+- Run `pnpm run typecheck:libs` before checking artifact packages if `lib/*` changed
+- `lib/api-zod/tsconfig.json` must keep `"dom"` in lib or `File`/`Blob` types break codegen output
+- Resume parsing is async — poll `GET /resumes/:id` until `status === "ready"` before running analysis
+- Uploaded files stored in `artifacts/api-server/uploads/` — must exist before server starts
 
 ## Pointers
 
