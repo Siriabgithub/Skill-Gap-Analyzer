@@ -1,5 +1,13 @@
+import { createRequire } from "node:module";
 import path from "path";
 import { logger } from "./logger.js";
+
+// Use createRequire so pdf-parse (CJS) loads correctly in our ESM bundle.
+// We load lib/pdf-parse.js directly to skip pdf-parse@1.1.1's test-file-at-startup bug.
+const _require = createRequire(import.meta.url);
+const pdfParse = _require("pdf-parse/lib/pdf-parse.js") as (
+  buf: Buffer,
+) => Promise<{ text: string }>;
 
 export async function parseResumeFile(filePath: string): Promise<string> {
   const ext = path.extname(filePath).toLowerCase();
@@ -16,11 +24,9 @@ export async function parseResumeFile(filePath: string): Promise<string> {
 async function parsePdf(filePath: string): Promise<string> {
   try {
     const fs = await import("fs");
-    // pdf-parse@1.1.1 exports a plain CJS function (no .default wrapper needed)
-    const pdfParse = (await import("pdf-parse")) as unknown as (buf: Buffer) => Promise<{ text: string }>;
     const buffer = fs.readFileSync(filePath);
     const data = await pdfParse(buffer);
-    return data.text;
+    return data.text || "";
   } catch (err) {
     logger.error({ err, filePath }, "Failed to parse PDF");
     throw new Error("Failed to parse PDF file");
@@ -31,7 +37,7 @@ async function parseDocx(filePath: string): Promise<string> {
   try {
     const mammoth = await import("mammoth");
     const result = await mammoth.extractRawText({ path: filePath });
-    return result.value;
+    return result.value || "";
   } catch (err) {
     logger.error({ err, filePath }, "Failed to parse DOCX");
     throw new Error("Failed to parse DOCX file");
