@@ -16,10 +16,10 @@ export async function parseResumeFile(filePath: string): Promise<string> {
 async function parsePdf(filePath: string): Promise<string> {
   try {
     const fs = await import("fs");
-    const pdfParseModule = await import("pdf-parse");
-    const pdfParse = (pdfParseModule as unknown as { default: (buf: Buffer) => Promise<{ text: string }> }).default ?? pdfParseModule;
+    // pdf-parse@1.1.1 exports a plain CJS function (no .default wrapper needed)
+    const pdfParse = (await import("pdf-parse")) as unknown as (buf: Buffer) => Promise<{ text: string }>;
     const buffer = fs.readFileSync(filePath);
-    const data = await (pdfParse as (buf: Buffer) => Promise<{ text: string }>)(buffer);
+    const data = await pdfParse(buffer);
     return data.text;
   } catch (err) {
     logger.error({ err, filePath }, "Failed to parse PDF");

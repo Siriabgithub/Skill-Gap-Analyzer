@@ -1,0 +1,260 @@
+You are a Senior Full-Stack Python Engineer.
+
+Analyze the ENTIRE existing codebase and fix all issues preventing the application from functioning correctly.
+
+CURRENT ISSUE:
+When a user uploads a resume, enters a target role and job description, and clicks "INITIATE ANALYSIS", the application shows:
+
+"Failed to start analysis"
+
+The application must be fully debugged and made production-ready.
+
+TASKS:
+
+1. DEBUG FIRST
+
+* Trace the complete flow from frontend button click to backend processing.
+* Identify the exact failure point.
+* Check browser requests.
+* Check Flask routes.
+* Check API responses.
+* Check resume parsing.
+* Check database operations.
+* Check NLP processing.
+* Check chart generation.
+* Check report generation.
+
+2. ADD ROBUST ERROR LOGGING
+   Implement detailed logging.
+
+Create logs for:
+
+* File uploads
+* Resume parsing
+* Skill extraction
+* Database operations
+* API requests
+* ATS scoring
+* Learning roadmap generation
+
+Use:
+
+Python logging module
+
+Create:
+logs/app.log
+
+Display meaningful errors instead of:
+
+"Failed to start analysis"
+
+Show:
+
+Resume parsing failed
+
+Database unavailable
+
+Missing NLP model
+
+Invalid PDF
+
+etc.
+
+3. VALIDATE FILE UPLOADS
+
+Support:
+
+* PDF
+* DOCX
+
+Validate:
+
+* Empty files
+* Corrupted files
+* Unsupported formats
+
+Display user-friendly errors.
+
+4. FIX SPACY DEPENDENCIES
+
+Check whether:
+
+en_core_web_sm
+
+exists.
+
+If not:
+
+Automatically download it on startup.
+
+Application must not crash if model is missing.
+
+Add fallback handling.
+
+5. FIX DATABASE ISSUES
+
+Verify:
+
+SQLite database creation
+
+Tables creation
+
+Automatic migrations
+
+Startup initialization
+
+Application should create database automatically if missing.
+
+6. FIX API ROUTES
+
+Verify every route.
+
+Check:
+
+/upload
+/analyze
+/report
+/dashboard
+/api/*
+
+Ensure all frontend requests correctly connect to backend routes.
+
+Fix any route mismatches.
+
+7. FIX FRONTEND REQUESTS
+
+Inspect:
+
+fetch()
+
+AJAX
+
+Form submission
+
+Ensure:
+
+Loading states
+
+Success states
+
+Error states
+
+Proper JSON handling
+
+No silent failures.
+
+8. IMPROVE RESUME PARSING
+
+Add support for:
+
+pdfplumber
+
+python-docx
+
+Fallback extraction methods.
+
+If extraction fails:
+
+Show clear error.
+
+Never crash application.
+
+9. IMPROVE ANALYSIS ENGINE
+
+Ensure analysis works even if:
+
+* Some resume sections are missing
+* JD is short
+* Skills are limited
+
+Add fallback logic.
+
+10. ADD SYSTEM HEALTH CHECK
+
+Create:
+
+/health
+
+Return:
+
+{
+"status": "ok",
+"database": "connected",
+"spacy": "loaded",
+"uploads": "available"
+}
+
+11. VERIFY LOCAL EXECUTION
+
+Application must run using:
+
+pip install -r requirements.txt
+
+python app.py
+
+without modifications.
+
+12. VERIFY GITHUB READINESS
+
+Generate:
+
+README.md
+
+Requirements
+
+Installation steps
+
+Troubleshooting guide
+
+Folder structure
+
+13. VERIFY DEPLOYMENT READINESS
+
+Ensure compatibility with:
+
+* Replit
+* GitHub
+* Render
+* Railway
+
+Use environment variables.
+
+Do not hardcode paths.
+
+14. ADD DEBUG PANEL
+
+For development mode:
+
+Display:
+
+* Uploaded filename
+* Extracted text length
+* Skills detected
+* API response status
+* Processing time
+
+This helps identify failures quickly.
+
+15. FINAL REQUIREMENT
+
+After fixing everything:
+
+Perform a full application audit.
+
+Test:
+
+1. Upload Resume
+2. Enter Job Description
+3. Run Analysis
+4. Generate ATS Score
+5. Generate Skill Gap Report
+6. Generate Learning Roadmap
+7. Generate PDF Report
+
+Ensure every workflow completes successfully without errors.
+
+Do NOT redesign the application.
+
+Keep the existing UI.
+
+Focus on stability, debugging, reliability, production readiness, and successful analysis execution.

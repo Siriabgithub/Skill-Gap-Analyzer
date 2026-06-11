@@ -28,10 +28,9 @@ export default function AnalysisDetail() {
   const [animatedAts, setAnimatedAts] = useState(0);
 
   useEffect(() => {
-    if (analysis?.atsScore) {
-      const timer = setTimeout(() => setAnimatedAts(analysis.atsScore), 100);
-      return () => clearTimeout(timer);
-    }
+    if (!analysis?.atsScore) return;
+    const timer = setTimeout(() => setAnimatedAts(analysis.atsScore), 100);
+    return () => clearTimeout(timer);
   }, [analysis?.atsScore]);
 
   if (isLoading) {
