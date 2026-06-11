@@ -1,0 +1,27 @@
+databases:
+  - name: skillgap-db
+    databaseName: skillgap
+    user: skillgap
+    plan: free
+
+services:
+  - type: web
+    name: skillgap-ai
+    runtime: node
+    plan: free
+    buildCommand: >
+      npm install -g pnpm &&
+      pnpm install &&
+      BASE_PATH=/ PORT=3000 pnpm --filter @workspace/skillgap-ai run build &&
+      pnpm --filter @workspace/api-server run build
+    startCommand: node --enable-source-maps ./artifacts/api-server/dist/index.mjs
+    healthCheckPath: /api/healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: skillgap-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true

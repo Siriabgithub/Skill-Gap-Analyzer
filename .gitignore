@@ -47,3 +47,15 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Environment secrets — never commit these
+.env
+.env.local
+.env.*.local
+
+# Uploaded resume files
+artifacts/api-server/uploads/*
+!artifacts/api-server/uploads/.gitkeep
+
+# Build output
+artifacts/*/dist/
