@@ -1,0 +1,1 @@
+- [Streamlit Python App Setup](streamlit-python-setup.md) — Streamlit apps need `installLanguagePackages` + `configureWorkflow` (not createArtifact); runs on port 5000.

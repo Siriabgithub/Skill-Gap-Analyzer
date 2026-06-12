@@ -1,0 +1,197 @@
+REBUILD THIS PROJECT FROM SCRATCH AS A PRODUCTION-READY PYTHON APPLICATION.
+
+PROJECT NAME:
+SkillGap AI – AI-Powered Resume and Skill Gap Analyzer
+
+IMPORTANT:
+The current project uses a React/Node.js monorepo architecture which is causing deployment issues on Render due to workspace/catalog dependencies.
+
+I want the project migrated to a PURE PYTHON architecture that is simple to deploy on Render, Vercel (via Python support if applicable), Railway, Streamlit Cloud, and local systems.
+
+PRIMARY GOALS:
+
+1. Python only
+2. Mobile-friendly web application
+3. Responsive UI for Android browsers
+4. Easy deployment
+5. Professional dashboard
+6. Resume-ready portfolio project
+7. No monorepo
+8. No pnpm
+9. No Node.js dependency
+10. No React dependency
+
+TECH STACK:
+
+* Python
+* Streamlit
+* Pandas
+* NumPy
+* Plotly
+* spaCy
+* scikit-learn
+* Sentence Transformers
+* PyPDF2
+* pdfplumber
+* python-docx
+* SQLite (default)
+* PostgreSQL (optional)
+* Render-compatible
+
+PROJECT FEATURES:
+
+MODULE 1: RESUME ANALYZER
+
+* Upload PDF
+* Upload DOCX
+* Extract text
+* Extract skills
+* Detect education
+* Detect certifications
+* Detect projects
+* Detect tools and technologies
+
+MODULE 2: JOB DESCRIPTION ANALYZER
+
+* Paste Job Description
+* Upload JD PDF
+* Upload JD DOCX
+* Extract required skills
+* Extract preferred skills
+* Extract responsibilities
+
+MODULE 3: SKILL GAP ANALYSIS
+
+* Compare resume skills against JD skills
+* Calculate Match Score
+* Show Missing Skills
+* Show Matching Skills
+* Show Strength Areas
+* Show Weak Areas
+
+MODULE 4: AI RECOMMENDATIONS
+Generate:
+
+* Missing skill recommendations
+* Learning roadmap
+* Resume improvement suggestions
+* Project recommendations
+* Certification recommendations
+
+MODULE 5: MARKET INSIGHTS
+Create a demo market intelligence dashboard:
+
+* Top trending skills
+* Most requested tools
+* Top certifications
+* Industry demand heatmap
+* Salary trend visualization
+
+MODULE 6: DASHBOARD
+Professional modern UI:
+
+* Dark theme
+* Glassmorphism cards
+* Smooth animations
+* Hover effects
+* Mobile responsive
+* Professional color palette
+* Plotly interactive charts
+
+VISUALIZATIONS:
+
+* Skill Match Gauge
+* Radar Chart
+* Skill Gap Heatmap
+* Trend Analysis
+* Bar Charts
+* Pie Charts
+* Learning Progress Dashboard
+
+ACCURACY REQUIREMENTS:
+
+* Use NLP-based extraction
+* Use skill dictionaries
+* Use semantic matching
+* Support synonyms
+* Handle different skill naming conventions
+
+SOURCE TRANSPARENCY:
+For every recommendation:
+
+* Display source
+* Display extraction confidence
+* Display matching score
+* Explain why recommendation was generated
+
+LOCAL EXECUTION:
+Project must run using:
+
+streamlit run app.py
+
+DEPLOYMENT REQUIREMENTS:
+Create all files necessary for deployment:
+
+requirements.txt
+
+runtime.txt
+
+Procfile
+
+README.md
+
+.render.yaml (if needed)
+
+Render deployment command:
+
+Build:
+pip install -r requirements.txt
+
+Start:
+streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
+
+PROJECT STRUCTURE:
+
+SkillGapAI/
+│
+├── app.py
+├── requirements.txt
+├── runtime.txt
+├── Procfile
+├── README.md
+├── assets/
+├── data/
+├── models/
+├── utils/
+├── pages/
+├── uploads/
+└── exports/
+
+EXPORT FEATURES:
+
+* Export PDF report
+* Export Excel report
+* Download recommendations
+
+ERROR HANDLING:
+
+* Handle corrupted PDFs
+* Handle empty resumes
+* Handle invalid JD inputs
+* Show user-friendly messages
+
+PORTFOLIO VALUE:
+This should look like an industry-grade AI/NLP analytics platform suitable for:
+
+* Data Analyst Portfolio
+* Data Scientist Portfolio
+* ML Engineer Portfolio
+
+FINAL REQUIREMENT:
+After implementation:
+
+1. Verify local execution.
+2. Verify Render deployment compatibility.
+3. Remove all Node.js, React, pnpm, workspace, and catalog dependencies.
+4. Ensure the project is completely standalone and deployment-ready.
+5. Generate deployment instructions at the end.
