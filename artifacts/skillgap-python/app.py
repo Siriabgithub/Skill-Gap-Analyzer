@@ -3,6 +3,10 @@ SkillGap AI — Intelligent Career Readiness Platform
 Main dashboard entry point
 """
 
+import streamlit as st
+st.write("STREAMLIT APP LOADED SUCCESSFULLY")
+
+
 import sys
 import os
 
